@@ -15,7 +15,7 @@ import java.util.List;
 public class TestBasics {
 
     @Autowired
-    private DealRepository dealRepository;
+    protected DealRepository dealRepository;
 
     protected Client getClient() {
 

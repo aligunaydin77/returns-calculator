@@ -9,6 +9,10 @@ public abstract class Deal {
     @Id
     private String id;
 
+    public String getId() {
+        return id;
+    }
+
     protected BigDecimal annualInterestRate;
 
     public BigDecimal getAnnualInterestRate() {
