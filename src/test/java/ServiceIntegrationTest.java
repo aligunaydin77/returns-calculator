@@ -86,7 +86,7 @@ public class ServiceIntegrationTest extends TestBasics {
 
     @Test
     public void shouldCalculateTotalReturnsInClientPortfolio() throws Exception {
-        BigDecimal totalReturn = restTemplate.getForObject("/totalReturnOfClient?clientId={clientId}",
+        BigDecimal totalReturn = restTemplate.getForObject("/totalReturnOfClient?clientId={clientId}&durationInYears=2",
                 ReturnCalculated.class, clientRepository.findAll().get(0).getId()).getReturnOfInvestment();
         assertThat(totalReturn.setScale(2, RoundingMode.HALF_DOWN),
                 comparesEqualTo(new BigDecimal("47504.33")));
@@ -94,7 +94,7 @@ public class ServiceIntegrationTest extends TestBasics {
 
     @Test
     public void shouldGiveClearErrorWhenClientNotRecognized() throws Exception {
-        ResponseEntity<String> errorResponse = restTemplate.getForEntity("/totalReturnOfClient?clientId={clientId}",
+        ResponseEntity<String> errorResponse = restTemplate.getForEntity("/totalReturnOfClient?clientId={clientId}&durationInYears=2",
                 String.class, "123");
         assertThat(errorResponse.getStatusCode(), equalTo(HttpStatus.NOT_FOUND));
         assertThat(errorResponse.getBody(), containsString("ClientNotFound"));
@@ -102,7 +102,7 @@ public class ServiceIntegrationTest extends TestBasics {
 
     @Test
     public void shouldReturnZeroWhenClientHasNoInvestment() throws Exception {
-        ResponseEntity<ReturnCalculated> positiveResponse = restTemplate.getForEntity("/totalReturnOfClient?clientId={clientId}",
+        ResponseEntity<ReturnCalculated> positiveResponse = restTemplate.getForEntity("/totalReturnOfClient?clientId={clientId}&durationInYears=2",
                 ReturnCalculated.class, clientRepository.findAll().get(1).getId());
         assertThat(positiveResponse.getStatusCode(), equalTo(HttpStatus.OK));
         assertThat(positiveResponse.getBody().getReturnOfInvestment(), comparesEqualTo(BigDecimal.ZERO));

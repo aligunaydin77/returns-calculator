@@ -32,18 +32,15 @@ public class ReturnsCalculator {
                                                                         @RequestParam(name = "durationInYears") int durationInYears) {
         return dealId2Amount.stream()
                 .filter(investmentOnADeal -> dealRepository.findOne(investmentOnADeal.getDealId()) != null)
-                .map(investmentOnADeal -> calculateReturnInDolar(investmentOnADeal, durationInYears))
+                .map(investmentOnADeal -> dealRepository.findOne(investmentOnADeal.getDealId()).
+                                calculateReturn(investmentOnADeal.getInvestmentAmount(), durationInYears, returnInDolar))
                 .map(ReturnCalculated::fromBigDecimal)
                 .collect(toList());
     }
 
-    private BigDecimal calculateReturnInDolar(InvestmentOnADeal investmentOnADeal, int durationInYears) {
-        return dealRepository.findOne(investmentOnADeal.getDealId()).
-                calculateReturn(investmentOnADeal.getInvestmentAmount(), durationInYears, returnInDolar);
-    }
-
     @GetMapping(path = "/totalReturnOfClient")
-    public @ResponseBody ReturnCalculated calculateTotalReturnOfAClient(@RequestParam(name = "clientId") String clientId) {
+    public @ResponseBody ReturnCalculated calculateTotalReturnOfAClient(@RequestParam(name = "clientId") String clientId,
+                                                                        @RequestParam(name = "durationInYears") int durationInYears ) {
         Client client = clientRepository.findOne(clientId);
         if(client == null) {
             throw new ClientNotFoundException(clientId);
@@ -53,7 +50,7 @@ public class ReturnsCalculator {
         }
         Optional<BigDecimal> totalReturn = client.getListOfInvestment()
                 .stream()
-                .map(investment -> investment.calculateReturn( 2, returnInDolar))
+                .map(investment -> investment.calculateReturn( durationInYears, returnInDolar))
                 .reduce((return1, return2) -> return1.add(return2));
         if(totalReturn.isPresent()) {
             return new ReturnCalculated(totalReturn.get());
