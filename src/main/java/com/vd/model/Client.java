@@ -4,9 +4,6 @@ import org.springframework.data.annotation.Id;
 
 import java.util.List;
 
-/**
- * Created by alis on 09/06/2017.
- */
 public class Client {
 
     @Id
@@ -14,7 +11,12 @@ public class Client {
 
     private String name;
 
+
     List<Investment> listOfInvestment;
+
+    public String getId() {
+        return id;
+    }
 
     public String getName() {
         return name;

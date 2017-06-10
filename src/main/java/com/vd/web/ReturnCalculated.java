@@ -4,24 +4,21 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.math.BigDecimal;
 
-/**
- * Created by alis on 09/06/2017.
- */
 public class ReturnCalculated {
 
     @JsonSerialize(using = MoneySerializer.class)
-    protected BigDecimal investmentAmount;
+    private BigDecimal returnOfInvestment;
 
-    public BigDecimal getInvestmentAmount() {
-        return investmentAmount;
+    public void setReturnOfInvestment(BigDecimal returnOfInvestment) {
+        this.returnOfInvestment = returnOfInvestment;
     }
 
-    public void setInvestmentAmount(BigDecimal investmentAmount) {
-        this.investmentAmount = investmentAmount;
+    public ReturnCalculated(BigDecimal returnOfInvestment) {
+        this.returnOfInvestment = returnOfInvestment;
     }
 
-    public ReturnCalculated(BigDecimal investmentAmount) {
-        this.investmentAmount = investmentAmount;
+    public BigDecimal getReturnOfInvestment() {
+        return returnOfInvestment;
     }
 
     public ReturnCalculated() {
@@ -30,4 +27,5 @@ public class ReturnCalculated {
     public static ReturnCalculated fromBigDecimal(BigDecimal investmentAmount) {
         return new ReturnCalculated(investmentAmount);
     }
+
 }

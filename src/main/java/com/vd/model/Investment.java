@@ -1,5 +1,7 @@
 package com.vd.model;
 
+import com.vd.fx.ReturnInDolar;
+
 import java.math.BigDecimal;
 
 
@@ -7,6 +9,15 @@ public class Investment {
 
     private Deal deal;
     private BigDecimal initialInvestmentAmount;
+    private String currency;
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
 
     public Deal getDeal() {
         return deal;
@@ -24,7 +35,7 @@ public class Investment {
         this.initialInvestmentAmount = initialInvestmentAmount;
     }
 
-    public BigDecimal calculateReturn(int durationInYears) {
-        return deal.calculateReturn(initialInvestmentAmount, durationInYears);
+    public BigDecimal calculateReturn(int durationInYears, ReturnInDolar returnInDolar) {
+        return deal.calculateReturn(initialInvestmentAmount, durationInYears, returnInDolar);
     }
 }

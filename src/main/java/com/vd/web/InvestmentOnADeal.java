@@ -4,13 +4,21 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.math.BigDecimal;
 
-/**
- * Created by alis on 09/06/2017.
- */
-public class InvestmentOnADeal extends ReturnCalculated {
+
+public class InvestmentOnADeal  {
+
+    @JsonSerialize(using = MoneySerializer.class)
+    private BigDecimal investmentAmount;
     private String dealId;
+    private String currency;
 
+    public String getCurrency() {
+        return currency;
+    }
 
+    public BigDecimal getInvestmentAmount() {
+        return investmentAmount;
+    }
 
     public InvestmentOnADeal(String dealId, BigDecimal investmentAmount) {
         this.dealId = dealId;
@@ -22,10 +30,6 @@ public class InvestmentOnADeal extends ReturnCalculated {
 
     public String getDealId() {
         return dealId;
-    }
-
-    public void setDealId(String dealId) {
-        this.dealId = dealId;
     }
 
 }
